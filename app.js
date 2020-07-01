@@ -22,12 +22,19 @@ const questionSet1 = [
     choices: ["Manager", "Engineer", "Intern"],
   },
 ];
+// second set of questions to extend to the children
+const questionSet2 = [{ type: "input" }];
+//initialization function
 function init() {
   inquirer
     .prompt(questionSet1)
     .then((answers) => {
-      console.log("dot then");
-
+      // console.log("dot then");
+      /* After the user has input all employees desired, call the `render` function (required above) and pass in an array containing all employee objects; the `render` function will generate and return a block of HTML including templated divs for each employee!*/
+      function getRole(answers) {
+        this.role
+      } 
+      render(answers);
     })
     .catch((error) => {
       if (error.isTtyError) {
@@ -36,12 +43,8 @@ function init() {
         console.log("Success");
       }
     });
-    
 }
 init();
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
