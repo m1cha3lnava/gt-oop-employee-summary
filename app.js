@@ -8,6 +8,8 @@ const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
+var employeesArray = []
+
 const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
@@ -23,18 +25,40 @@ const questionSet1 = [
   },
 ];
 // second set of questions to extend to the children
-const questionSet2 = [{ type: "input" }];
+// const questionSet2 = [{ type: "input" }];
 //initialization function
 function init() {
   inquirer
     .prompt(questionSet1)
     .then((answers) => {
+
+      switch(answers.role){
+        case  "Manager":
+          inquirer.prompt({
+            
+          }).then(mgrAnswers => {
+            var manager = new Manager(id, name, email, officeNumber);
+          employeesArray.push(manager)} )
+          break;
+        case "Engineer":
+
+          break;
+        case "Intern":
+
+          break;
+        case "Employee":
+
+          break;
+          default:
+            
+            break;
+      }
       // console.log("dot then");
       /* After the user has input all employees desired, call the `render` function (required above) and pass in an array containing all employee objects; the `render` function will generate and return a block of HTML including templated divs for each employee!*/
       function getRole(answers) {
         this.role
       } 
-      render(answers);
+      render(employeesArray);
     })
     .catch((error) => {
       if (error.isTtyError) {
