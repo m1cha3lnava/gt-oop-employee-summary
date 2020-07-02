@@ -8,7 +8,7 @@ const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-var employeesArray = []
+var employeesArray = [];
 
 const render = require("./lib/htmlRenderer");
 
@@ -31,33 +31,51 @@ function init() {
   inquirer
     .prompt(questionSet1)
     .then((answers) => {
-
-      switch(answers.role){
-        case  "Manager":
-          inquirer.prompt({
-            
-          }).then(mgrAnswers => {
-            var manager = new Manager(id, name, email, officeNumber);
-          employeesArray.push(manager)} )
+      switch (answers.role) {
+        case "Manager":
+          inquirer
+            .prompt({
+              type: "input",
+              name: "officeNumber",
+              message: "What is your office number?",
+            })
+            .then((mgrAnswers) => {
+              var manager = new Manager(id, name, email, github);
+              employeesArray.push(manager);
+            });
           break;
         case "Engineer":
-
+          inquirer
+            .prompt({
+              type: "input",
+              name: "github",
+              message: "What is your Github account?",
+            })
+            .then((engineerAnswers) => {
+              var engineer = new Engineer(name, id, email, github);
+              employeesArray.push(engineer);
+            });
           break;
         case "Intern":
-
+          inquirer
+            .prompt({
+              type: "input",
+              name: "school",
+              message: "What school are you from?",
+            })
+            .then((internAnswers) => {
+              var intern = new Intern(name, id, email, school);
+              employeesArray.push(intern);
+            });
           break;
-        case "Employee":
-
+        default:
           break;
-          default:
-            
-            break;
       }
       // console.log("dot then");
-      /* After the user has input all employees desired, call the `render` function (required above) and pass in an array containing all employee objects; the `render` function will generate and return a block of HTML including templated divs for each employee!*/
+
       function getRole(answers) {
-        this.role
-      } 
+        this.role;
+      }
       render(employeesArray);
     })
     .catch((error) => {
@@ -69,16 +87,13 @@ function init() {
     });
 }
 init();
+/* After the user has input all employees desired, call the `render` function (required above) and pass in an array containing all employee objects; the `render` function will generate and return a block of HTML including templated divs for each employee!*/
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
 
 // HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
 // and Intern classes should all extend from a class named Employee; see the directions
