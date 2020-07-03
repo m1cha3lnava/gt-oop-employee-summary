@@ -48,7 +48,7 @@ const internQuest = [
   {
     type: "input",
     name: "email",
-    message: "What is the engineer's email address?",
+    message: "What is the intern's email address?",
   },
   {
     type: "input",
@@ -88,7 +88,11 @@ function addNewEmp() {
         console.log("Add Intern");
         internQ();
       } else {
-        console.log(employeesArray);
+        // console.log(employeesArray);
+        fs.writeFile(outputPath, render(employeesArray), function (err) {
+          if (err) throw err;
+        });
+        console.log("we will push your team members to an HTML file!");
       }
     });
 }
