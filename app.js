@@ -8,85 +8,153 @@ const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-var employeesArray = [];
+const employeesArray = [];
 
 const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-const questionSet1 = [
-  { type: "input", name: "name", message: "What is your Employee's name?" },
-  { type: "input", name: "email", message: "What is your email address?" },
+const managerQ = [
+  { type: "input", name: "id", message: "Enter manager ID." },
+  { type: "input", name: "name", message: "What the manager's name?" },
   {
-    type: "list",
-    name: "role",
-    message: "What type of employee are you adding?",
-    choices: ["Manager", "Engineer", "Intern"],
+    type: "input",
+    name: "email",
+    message: "What is the manager's email address?",
+  },
+  {
+    type: "input",
+    name: "officeNumber",
+    message: "What is the manager's office number?",
   },
 ];
-// second set of questions to extend to the children
-// const questionSet2 = [{ type: "input" }];
 //initialization function
 function init() {
   inquirer
-    .prompt(questionSet1)
-    .then((answers) => {
-      switch (answers.role) {
-        case "Manager":
-          inquirer
-            .prompt({
-              type: "input",
-              name: "officeNumber",
-              message: "What is your office number?",
-            })
-            .then((mgrAnswers) => {
-              var manager = new Manager(id, name, email, github);
-              employeesArray.push(manager);
-            });
-          break;
-        case "Engineer":
-          inquirer
-            .prompt({
-              type: "input",
-              name: "github",
-              message: "What is your Github account?",
-            })
-            .then((engineerAnswers) => {
-              var engineer = new Engineer(name, id, email, github);
-              employeesArray.push(engineer);
-            });
-          break;
-        case "Intern":
-          inquirer
-            .prompt({
-              type: "input",
-              name: "school",
-              message: "What school are you from?",
-            })
-            .then((internAnswers) => {
-              var intern = new Intern(name, id, email, school);
-              employeesArray.push(intern);
-            });
-          break;
-        default:
-          break;
-      }
-      // console.log("dot then");
-
-      function getRole(answers) {
-        this.role;
-      }
-      render(employeesArray);
+    .prompt(managerQ)
+    .then((mgrAnswers) => {
+      var manager = new Manager(
+        mgrAnswers.name,
+        mgrAnswers.id,
+        mgrAnswers.email,
+        mgrAnswers.officeNumber
+      );
+      employeesArray.push(manager);
+      // console.log("manager added");
+      // console.log(employeesArray);
+    })
+    .then((addNewEmp) => {
+      inquirer
+        .prompt({
+          type: "confirm",
+          name: "addMore",
+          message: "Would you like to add additional employees?",
+          default: true,
+        })
+        .then((res) => {
+          if (res.addmore) {
+            console.log("Add employee");
+          } else {
+            console.log("I am done");
+          }
+        })
+        .catch((error) => {
+          if (error.isTtyError) {
+            console.log(
+              "Prompt couldn't be rendered in the current environment"
+            );
+          } else {
+            console.log("Success Add New Employee");
+          }
+        });
     })
     .catch((error) => {
       if (error.isTtyError) {
         console.log("Prompt couldn't be rendered in the current environment");
       } else {
-        console.log("Success");
+        console.log("Success Manager Question");
       }
     });
 }
+/* function addEmployee() {
+  inquirer
+    .prompt({
+      type: "confirm",
+      name: "addMore",
+      message: "Would you like to add additional employees?",
+      default: true,
+    })
+    .then((mgrAnswers) => {
+      if (res.addMore) {
+        inquirer.prompt([
+          {
+            type: "list",
+            name: "role",
+            message: "What type of employee are you adding?",
+            choices: ["Engineer", "Intern"],
+          },
+        ]);
+        switch (mgrAnswers.role) {
+          case "Engineer":
+            inquirer
+              .prompt({
+                type: "input",
+                name: "github",
+                message: "What is your Github account?",
+              })
+              .then((engineerAnswers) => {
+                var engineer = new Engineer(
+                  engineerAnswers.name,
+                  engineerAnswers.id,
+                  engineerAnswers.email,
+                  engineerAnswers.github
+                );
+                employeesArray.push(engineer);
+                addEmployee();
+              });
+            break;
+          case "Intern":
+            inquirer
+              .prompt({
+                type: "input",
+                name: "school",
+                message: "What school are you from?",
+              })
+              .then((internAnswers) => {
+                var intern = new Intern(
+                  internAnswers.name,
+                  internAnswers.id,
+                  internAnswers.email,
+                  internAnswers.school
+                );
+                employeesArray.push(intern);
+                addEmployee();
+              });
+            break;
+          default:
+            inquirer.prompt({
+              type: "confirm",
+              name: "addmore",
+              message: "Do you want to add more employees?",
+              default: true,
+            });
+        }
+        break;
+      } else {
+        render(employeesArray);
+        fs.writeFile;
+      }
+    });
+} */
 init();
+/*   
+  // console.log("dot then");
+
+  function getRole(answers) {
+    this.role;
+  }
+} */
+
 /* After the user has input all employees desired, call the `render` function (required above) and pass in an array containing all employee objects; the `render` function will generate and return a block of HTML including templated divs for each employee!*/
 
 // After you have your html, you're now ready to create an HTML file using the HTML
@@ -99,4 +167,4 @@ init();
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+// for the provided `render` function to work!
