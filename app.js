@@ -88,7 +88,7 @@ function addNewEmp() {
         console.log("Add Intern");
         internQ();
       } else {
-        // console.log("render emp");
+        console.log(employeesArray);
       }
     });
 }
