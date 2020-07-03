@@ -28,132 +28,95 @@ const managerQ = [
     message: "What is the manager's office number?",
   },
 ];
+const engineerQuest = [
+  { type: "input", name: "id", message: "Enter engineer's ID." },
+  { type: "input", name: "name", message: "What the engineer's name?" },
+  {
+    type: "input",
+    name: "email",
+    message: "What is the engineer's email address?",
+  },
+  {
+    type: "input",
+    name: "github",
+    message: "What is your engineer's Github account?",
+  },
+];
+const internQuest = [
+  { type: "input", name: "id", message: "Enter intern's ID." },
+  { type: "input", name: "name", message: "What the intern's name?" },
+  {
+    type: "input",
+    name: "email",
+    message: "What is the engineer's email address?",
+  },
+  {
+    type: "input",
+    name: "school",
+    message: "What school are you from?",
+  },
+];
 //initialization function
 function init() {
+  inquirer.prompt(managerQ).then((mgrAnswers) => {
+    const manager = new Manager(
+      mgrAnswers.name,
+      mgrAnswers.id,
+      mgrAnswers.email,
+      mgrAnswers.officeNumber
+    );
+    employeesArray.push(manager);
+    addNewEmp();
+  });
+}
+
+function addNewEmp() {
+  // console.log("Add New Employee");
   inquirer
-    .prompt(managerQ)
-    .then((mgrAnswers) => {
-      var manager = new Manager(
-        mgrAnswers.name,
-        mgrAnswers.id,
-        mgrAnswers.email,
-        mgrAnswers.officeNumber
-      );
-      employeesArray.push(manager);
-      // console.log("manager added");
-      // console.log(employeesArray);
+    .prompt({
+      type: "list",
+      message: "Do you want to add more employees?",
+      name: "addMore",
+      choices: ["Engineer", "Intern", "I am finished"],
     })
-    .then((addNewEmp) => {
-      inquirer
-        .prompt({
-          type: "confirm",
-          name: "addMore",
-          message: "Would you like to add additional employees?",
-          default: true,
-        })
-        .then((res) => {
-          if (res.addmore) {
-            console.log("Add employee");
-          } else {
-            console.log("I am done");
-          }
-        })
-        .catch((error) => {
-          if (error.isTtyError) {
-            console.log(
-              "Prompt couldn't be rendered in the current environment"
-            );
-          } else {
-            console.log("Success Add New Employee");
-          }
-        });
-    })
-    .catch((error) => {
-      if (error.isTtyError) {
-        console.log("Prompt couldn't be rendered in the current environment");
+    .then((newEmp) => {
+      // console.log(newEmp.addMore);
+      if (newEmp.addMore === "Engineer") {
+        // console.log("Add engineer");
+        engineerQ();
+      } else if (newEmp.addMore === "Intern") {
+        console.log("Add Intern");
+        internQ();
       } else {
-        console.log("Success Manager Question");
+        // console.log("render emp");
       }
     });
 }
-/* function addEmployee() {
-  inquirer
-    .prompt({
-      type: "confirm",
-      name: "addMore",
-      message: "Would you like to add additional employees?",
-      default: true,
-    })
-    .then((mgrAnswers) => {
-      if (res.addMore) {
-        inquirer.prompt([
-          {
-            type: "list",
-            name: "role",
-            message: "What type of employee are you adding?",
-            choices: ["Engineer", "Intern"],
-          },
-        ]);
-        switch (mgrAnswers.role) {
-          case "Engineer":
-            inquirer
-              .prompt({
-                type: "input",
-                name: "github",
-                message: "What is your Github account?",
-              })
-              .then((engineerAnswers) => {
-                var engineer = new Engineer(
-                  engineerAnswers.name,
-                  engineerAnswers.id,
-                  engineerAnswers.email,
-                  engineerAnswers.github
-                );
-                employeesArray.push(engineer);
-                addEmployee();
-              });
-            break;
-          case "Intern":
-            inquirer
-              .prompt({
-                type: "input",
-                name: "school",
-                message: "What school are you from?",
-              })
-              .then((internAnswers) => {
-                var intern = new Intern(
-                  internAnswers.name,
-                  internAnswers.id,
-                  internAnswers.email,
-                  internAnswers.school
-                );
-                employeesArray.push(intern);
-                addEmployee();
-              });
-            break;
-          default:
-            inquirer.prompt({
-              type: "confirm",
-              name: "addmore",
-              message: "Do you want to add more employees?",
-              default: true,
-            });
-        }
-        break;
-      } else {
-        render(employeesArray);
-        fs.writeFile;
-      }
-    });
-} */
+function engineerQ() {
+  inquirer.prompt(engineerQuest).then((engineerA) => {
+    const engineer = new Engineer(
+      engineerA.name,
+      engineerA.id,
+      engineerA.email,
+      engineerA.github
+    );
+    employeesArray.push(engineer);
+    addNewEmp();
+  });
+}
+function internQ() {
+  inquirer.prompt(internQuest).then((internA) => {
+    const intern = new Intern(
+      internA.name,
+      internA.id,
+      internA.email,
+      internA.school
+    );
+    employeesArray.push(intern);
+    addNewEmp();
+  });
+}
 init();
-/*   
-  // console.log("dot then");
-
-  function getRole(answers) {
-    this.role;
-  }
-} */
 
 /* After the user has input all employees desired, call the `render` function (required above) and pass in an array containing all employee objects; the `render` function will generate and return a block of HTML including templated divs for each employee!*/
 
