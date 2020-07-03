@@ -11,49 +11,153 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const employeesArray = [];
 
 const render = require("./lib/htmlRenderer");
+const { match } = require("assert");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 const managerQ = [
-  { type: "input", name: "id", message: "Enter manager ID." },
-  { type: "input", name: "name", message: "What the manager's name?" },
+  {
+    type: "input",
+    name: "id",
+    message: "Enter manager ID.",
+    validate: function (answer) {
+      const match = answer.match(/^[1-9]\d*$/);
+      if (match) {
+        return true;
+      }
+      return "Please enter a valid number";
+    },
+  },
+  {
+    type: "input",
+    name: "name",
+    message: "What the manager's name?",
+    validate: function (answer) {
+      if (answer !== "") {
+        return true;
+      }
+      return "Please enter a valid name";
+    },
+  },
   {
     type: "input",
     name: "email",
     message: "What is the manager's email address?",
+    validate: function (answer) {
+      const match = answer.match(/\S+@\S+\.\S+/);
+      if (match) {
+        return true;
+      }
+      return "Please enter a valid email address";
+    },
   },
   {
     type: "input",
     name: "officeNumber",
     message: "What is the manager's office number?",
+    validate: function (answer) {
+      const match = answer.match(/^[1-9]\d*$/);
+      if (match) {
+        return true;
+      }
+      return "Please enter a valid number";
+    },
   },
 ];
 const engineerQuest = [
-  { type: "input", name: "id", message: "Enter engineer's ID." },
-  { type: "input", name: "name", message: "What the engineer's name?" },
+  {
+    type: "input",
+    name: "id",
+    message: "Enter engineer's ID.",
+    validate: function (answer) {
+      const match = answer.match(/^[1-9]\d*$/);
+      if (match) {
+        return true;
+      }
+      return "Please enter a valid id number";
+    },
+  },
+  {
+    type: "input",
+    name: "name",
+    message: "What the engineer's name?",
+    validate: function (answer) {
+      if (answer !== "") {
+        return true;
+      }
+      return "Please enter a name";
+    },
+  },
   {
     type: "input",
     name: "email",
     message: "What is the engineer's email address?",
+    validate: function (answer) {
+      const match = answer.match(/\S+@\S+\.\S+/);
+      if (match) {
+        return true;
+      }
+      return "Please enter a valid email address";
+    },
   },
   {
     type: "input",
     name: "github",
     message: "What is your engineer's Github account?",
+    validate: function (answer) {
+      if (answer !== "") {
+        return true;
+      }
+      return "Please enter an account name";
+    },
   },
 ];
 const internQuest = [
-  { type: "input", name: "id", message: "Enter intern's ID." },
-  { type: "input", name: "name", message: "What the intern's name?" },
+  {
+    type: "input",
+    name: "id",
+    message: "Enter intern's ID.",
+    validate: function (answer) {
+      const match = answer.match(/^[1-9]\d*$/);
+      if (match) {
+        return true;
+      }
+      return "Please enter valid id number";
+    },
+  },
+  {
+    type: "input",
+    name: "name",
+    message: "What the intern's name?",
+    validate: function (answer) {
+      if (answer !== "") {
+        return true;
+      }
+      return "Please enter a name";
+    },
+  },
   {
     type: "input",
     name: "email",
     message: "What is the intern's email address?",
+    validate: function (answer) {
+      const match = answer.match(/\S+@\S+\.\S+/);
+      if (match) {
+        return true;
+      }
+      return "Please enter a valid email address";
+    },
   },
   {
     type: "input",
     name: "school",
     message: "What school are you from?",
+    validate: function (answer) {
+      if (answer !== "") {
+        return true;
+      }
+      return "Please enter a school";
+    },
   },
 ];
 //initialization function
