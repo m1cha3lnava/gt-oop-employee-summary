@@ -4,7 +4,7 @@ MIT license
 
 ## Description
 
-A command line app that creates an html page displaying the roster for a set of employees that you add. It first prompts the user to input the manager's info, validates the input, and then gives more prompts to help you build a team of either engineers or interns. Once you are done entering the employee info, select I am finished and it will then generate your html page.
+A command line app that creates an html page displaying the roster for a set of employees that you add. It first prompts the user to input the manager's info, validates the input, and then gives more prompts to help you build a team of either engineers or interns. Once you are done entering the employee info, select I am finished and it will then generate your team.html page in the output folder.
 
 ## Table of contents
 
@@ -34,8 +34,9 @@ node app.js
 ## Contributing
 
 I used tests from jest and inquirer with knowledge from the Georgia Tech full stack flex coding boot camp.
-* [Jest](https://www.npmjs.com/package/jest)
-* [Inquirer](https://www.npmjs.com/package/inquirer)
+
+- [Jest](https://www.npmjs.com/package/jest)
+- [Inquirer](https://www.npmjs.com/package/inquirer)
 
 ## Tests
 
